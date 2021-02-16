@@ -1,3 +1,5 @@
+target
+serverless.yml
 .gradle
 .serverless
 build
