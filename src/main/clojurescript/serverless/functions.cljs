@@ -1,11 +1,9 @@
 (ns serverless.functions
   (:require
-    [cljs.nodejs :as nodejs]
+    ctmx.lambda.middleware
     [serverless.functions.core :as core])
   (:require-macros
-    [serverless.static :as static]))
+    [ctmx.lambda :as lambda]))
 
-(set! (.-exports js/module) #js
-    {:hello core/hello})
-
-(static/export-to-serverless core/hello)
+(lambda/export-to-serverless
+  core/hello)

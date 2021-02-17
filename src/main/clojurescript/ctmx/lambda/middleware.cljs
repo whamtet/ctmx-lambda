@@ -31,9 +31,8 @@
         (keywordize query-params)
         body-lines))))
 
-(defn e->ring [event]
-  (let [{:keys [headers requestContext body resource multiValueQueryStringParameters]} (-> event js->clj keywordize)
-        headers-kw (keywordize-lower headers)]
+(defn e->ring [{:strs [headers requestContext body resource multiValueQueryStringParameters]}]
+  (let [headers-kw (keywordize-lower headers)]
     {:server-port (some-> headers-kw :x-forwarded-port js/Number)
      :server-name (:host headers-kw)
      :remote-addr (:x-forwarded-for headers-kw)
@@ -51,11 +50,13 @@
   (update r :headers #(merge cors-headers %)))
 
 (defn rename-status [m]
-  (update m :statusCode #(or % (:status m))))
+  (-> m
+      (update :statusCode #(or % (:status m)))
+      (dissoc :status)))
 
 (defn response [r]
   (-> r render/snippet-response rename-status merge-cors))
 
 (defn wrap-handler [f]
   (fn [event ctx cb]
-    (->> event e->ring f response clj->js (cb nil))))
+    (->> event js->clj e->ring f response clj->js (cb nil))))

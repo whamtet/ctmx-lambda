@@ -54,7 +54,6 @@ package:
     - ./**
     - build/**
   include:
-    - node_modules/**
     - build/clojurescript/main/functions.js
 
 functions:

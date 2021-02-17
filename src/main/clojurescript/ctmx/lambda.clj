@@ -1,6 +1,7 @@
-(ns serverless.static
+(ns ctmx.lambda
   (:require
-    [clojure.string :as string]))
+    [clojure.string :as string]
+    [ctmx.core :as ctmx]))
 
 (defn get-lines []
   (->> (-> "serverless.format.yml" slurp (.split "\n"))
@@ -30,7 +31,15 @@
                  (string/join "\n"))))))
 
 (defmacro export-to-serverless [& methods]
-  (->> methods
-       (map #(-> % str (.split "/") last))
-       spit-config))
-
+  (let [all-endpoints (ctmx/extract-endpoints-root methods)]
+    (->> all-endpoints
+         keys
+         (map str)
+         spit-config)
+    `(set! (.-exports js/module)
+           (cljs.core/clj->js
+             ~(into {}
+                    (for [[f-name ns-name] all-endpoints]
+                      [(keyword f-name)
+                       `(ctmx.lambda.middleware/wrap-handler
+                          ~(symbol (str ns-name) (str f-name)))]))))))
