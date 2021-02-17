@@ -3,5 +3,4 @@ serverless.yml
 .gradle
 .serverless
 build
-gradle
 node_modules
