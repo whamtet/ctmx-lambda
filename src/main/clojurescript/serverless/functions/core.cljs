@@ -1,5 +1,6 @@
 (ns serverless.functions.core
   (:require
+    [ctmx.lambda.middleware :as middleware]
     [serverless.util :as util]))
 
 (defn hello [event ctx cb]
@@ -8,4 +9,4 @@
              :headers    {"Content-Type" "text/html"
                           "Access-Control-Allow-Origin" "*"
                           "Access-Control-Allow-Credentials" true}
-             :body       (str "<pre>" (util/pprint (js->clj event) (js->clj ctx)) "</pre>")})))
+             :body       (str "<pre>" (util/pprint (js->clj event) (middleware/e->ring event)) "</pre>")})))

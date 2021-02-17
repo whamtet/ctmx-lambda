@@ -15,6 +15,7 @@ repositories {
 
 dependencies {
   implementation 'org.clojure:clojurescript:1.10.773'
+  implementation 'ctmx:ctmx:0.1.0-SNAPSHOT'
   devImplementation 'org.clojure:java.classpath'
 }
 
