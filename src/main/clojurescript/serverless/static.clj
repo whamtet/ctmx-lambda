@@ -29,4 +29,8 @@
                  (map #(section lines %))
                  (string/join "\n"))))))
 
+(defmacro export-to-serverless [& methods]
+  (->> methods
+       (map #(-> % str (.split "/") last))
+       spit-config))
 
