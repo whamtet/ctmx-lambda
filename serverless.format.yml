@@ -64,7 +64,23 @@ functions:
       - http:
           path: /hello
           method: get
-          cors: true
+          cors:
+            origin: '*' # <-- Specify allowed origin
+            headers: # <-- Specify allowed headers
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - HX-Current-URL
+              - HX-History-Restore-Request
+              - HX-Prompt
+              - HX-Request
+              - HX-Target
+              - HX-Trigger-Name
+              - HX-Trigger
+            allowCredentials: true
 
 #    The following are a few example events you can configure
 #    NOTE: Please make sure to change your handler code to work with those events
