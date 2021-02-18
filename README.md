@@ -20,9 +20,9 @@ Place the following at the bottom of your pages
 
 Make sure you have [leiningen](https://leiningen.org/) installed then compile the clojurescript
 
-   scripts/release
+    scripts/release
 
 To print all the static html (prerendering)
 
-   echo "console.log(require('./build/clojurescript/main/functions').static);" | node
+    echo "console.log(require('./build/clojurescript/main/functions').static);" | node
 
