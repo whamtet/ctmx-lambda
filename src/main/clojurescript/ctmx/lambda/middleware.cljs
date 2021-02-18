@@ -64,7 +64,12 @@
   (fn [event ctx cb]
     (->> event js->clj e->ring f response clj->js (cb nil))))
 
+(def init-request
+  {:headers {}
+   :params {}
+   :request-method :get})
+
 (defn static [pairs]
   (string/join "\n\n"
                (for [[k f] pairs]
-                 (->> {:params {}} f static-response (str k "\n")))))
+                 (->> init-request f static-response (str k "\n")))))

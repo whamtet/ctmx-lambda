@@ -7,6 +7,8 @@
     {:output-to "build/clojurescript/main/functions.js"
      :output-dir "build/clojurescript/main"
      :optimizations :simple
+     :target :nodejs
+     :main 'serverless.functions
      :pretty-print false
      :optimize-constants true
      :static-fns true
