@@ -70,6 +70,6 @@
    :request-method :get})
 
 (defn static [pairs]
-  (string/join "\n\n"
-               (for [[k f] pairs]
-                 (->> init-request f static-response (str k "\n")))))
+  (->> pairs
+       (value-map #(-> init-request % static-response))
+       pr-str))

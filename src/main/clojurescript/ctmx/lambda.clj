@@ -54,7 +54,7 @@
 
 (defmacro export-to-serverless [& namespaces]
   (let [flat-endpoints (mapmerge endpoints-in-ns namespaces)
-        static-endpoint-map (vec (mapcat static-endpoints namespaces))]
+        static-endpoint-map (into {} (mapcat static-endpoints namespaces))]
     (->> flat-endpoints
          keys
          (map str)
