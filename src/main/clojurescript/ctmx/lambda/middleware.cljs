@@ -20,7 +20,7 @@
         (when body
           (as-> body $
                 (.trim $)
-                (.split $ "\n")
+                (.split $ "&")
                 (for [line $
                       :let [[k v] (.split line "=")]]
                   [(-> k js/decodeURIComponent keyword)
