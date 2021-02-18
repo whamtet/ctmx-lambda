@@ -81,7 +81,7 @@
     [:input {:type "hidden" :name (path "first-name") :value first-name}]
     [:input {:type "hidden" :name (path "last-name") :value last-name}]])
 
-(defcomponent ^:endpoint ^{:params add-customer} customer-list
+(defcomponent ^:endpoint ^{:middleware add-customer} customer-list
   [req first-name last-name ^:json customer]
   [:form {:id id :hx-post "customer-list"}
     ;; display the nested params
