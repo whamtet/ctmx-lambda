@@ -1,7 +1,11 @@
 (ns ctmx.lambda
   (:require
+    [cljs.env :as env]
     [clojure.string :as string]
     [ctmx.core :as ctmx]))
+
+(defn- mapmerge [f s]
+  (apply merge (map f s)))
 
 (defn get-lines []
   (->> (-> "serverless.format.yml" slurp (.split "\n"))
@@ -30,16 +34,26 @@
                  (map #(section lines %))
                  (string/join "\n"))))))
 
-(defmacro export-to-serverless [& methods]
-  (let [all-endpoints (ctmx/extract-endpoints-root methods)]
-    (->> all-endpoints
+(defn endpoints-in-ns [ns]
+  (->> ns
+       ((ctmx/namespaces))
+       :defs
+       vals
+       (filter :endpoint)
+       (map #(let [[a b] (-> % :name str (.split "/"))]
+               [(symbol b) (symbol a)]))
+       (into {})))
+
+(defmacro export-to-serverless [& namespaces]
+  (let [flat-endpoints (mapmerge endpoints-in-ns namespaces)]
+    (->> flat-endpoints
          keys
          (map str)
          spit-config)
     `(set! (.-exports js/module)
            (cljs.core/clj->js
              ~(into {}
-                    (for [[f-name ns-name] all-endpoints]
+                    (for [[f-name ns-name] flat-endpoints]
                       [(keyword f-name)
                        `(ctmx.lambda.middleware/wrap-handler
                           ~(symbol (str ns-name) (str f-name)))]))))))

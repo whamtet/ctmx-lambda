@@ -1,9 +1,9 @@
 (ns serverless.functions
   (:require
     ctmx.lambda.middleware
-    [serverless.functions.core :as core])
+    serverless.functions.core)
   (:require-macros
     [ctmx.lambda :as lambda]))
 
 (lambda/export-to-serverless
-  core/hello)
+  serverless.functions.core)
