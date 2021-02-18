@@ -5,5 +5,4 @@
             :url "https://www.eclipse.org/legal/epl-2.0/"}
   :dependencies [[org.clojure/clojure "1.10.1"]
                  [ctmx "0.1.0-SNAPSHOT"]]
-  :source-paths ["src/main/clojurescript"]
-  :repl-options {:init-ns serverless.static})
+  :source-paths ["src/main/clojurescript"])

@@ -1,31 +1,28 @@
-# AWS Clojurescript Gradle Template
+# CTMX Lambda
 
-This project compiles **Clojurescript** to a [NodeJS](https://nodejs.org/en/) module using the [Gradle Clojure Plugin](https://gradle-clojure.github.io/gradle-clojure/index.html).
+### Usage
 
-### NodeJS Support
+Place the following at the bottom of your pages
 
-Rudimentary support for loading/using **NodeJS** modules is provided.
 
-See [functions.cljs](./src/main/clojurescript/serverless/functions.cljs) as an example.
+```html
+<script src="https://unpkg.com/htmx.org@1.2.0"></script>
+<script>
+  var root = 'https://lambda-url'; // your lambda-url here
+  function onEvent(evtName, evt) {
+    if (evtName === 'htmx:configRequest') {
+      evt.detail.path = root + evt.detail.path;
+    }
+  }
+  htmx.defineExtension('lambda-cors', {onEvent: onEvent});
+</script>
+```
 
-To include **NodeJS** dependencies, modify [build.gradle](./build.gradle) and add the module to the `closurescript .. npmDeps` section.
+Make sure you have [leiningen](https://leiningen.org/) installed then compile the clojurescript
 
-### Prerequisites
+   scripts/release
 
-- Create an [Amazon Web Services](https://aws.amazon.com) account
-- Install and set-up [Serverless Framework CLI](https://serverless.com)
-- Install [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
-- Install [NPM](https://www.npmjs.com/get-npm)
-- Install [Clojure](https://clojure.org/guides/getting_started)
-- Install [Gradle](https://gradle.org/install/)
+To print all the static html (prerendering)
 
-### Build and Deploy
+   echo "console.log(require('./build/clojurescript/main/functions').static);" | node
 
-- To build, run `./gradlew clean build`
-- To deploy, run `serverless deploy`
-
-### Using the Repl in IntelliJ Cursive IDE
-
-This project contains a [script](./scripts/node_repl.clj) the must be initialized in order to use the **Repl** in **IntelliJ**.
-
-![](http://share.rowellbelen.com/5WvFH2+)

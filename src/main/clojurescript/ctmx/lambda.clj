@@ -44,16 +44,28 @@
                [(symbol b) (symbol a)]))
        (into {})))
 
+(defn static-endpoints [ns]
+  (->> ns
+       ((ctmx/namespaces))
+       :defs
+       vals
+       (filter :html)
+       (map (fn [{n :name}] [(keyword n) n]))))
+
 (defmacro export-to-serverless [& namespaces]
-  (let [flat-endpoints (mapmerge endpoints-in-ns namespaces)]
+  (let [flat-endpoints (mapmerge endpoints-in-ns namespaces)
+        static-endpoint-map (vec (mapcat static-endpoints namespaces))]
     (->> flat-endpoints
          keys
          (map str)
          spit-config)
     `(set! (.-exports js/module)
            (cljs.core/clj->js
-             ~(into {}
+             ~(into {:static `(ctmx.lambda.middleware/static ~static-endpoint-map)}
                     (for [[f-name ns-name] flat-endpoints]
                       [(keyword f-name)
                        `(ctmx.lambda.middleware/wrap-handler
                           ~(symbol (str ns-name) (str f-name)))]))))))
+
+(defmacro make-routes [url f]
+  `(def ~(-> url (.replaceAll "/" "") symbol (with-meta {:html true})) ~f))

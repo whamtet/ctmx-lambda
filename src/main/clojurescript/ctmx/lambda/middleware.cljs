@@ -1,5 +1,6 @@
 (ns ctmx.lambda.middleware
   (:require
+    [clojure.string :as string]
     [ctmx.render :as render]))
 
 (defn key-map [f m]
@@ -56,7 +57,14 @@
 
 (defn response [r]
   (-> r render/snippet-response rename-status merge-cors))
+(defn static-response [r]
+  (->> r (vector :div {:hx-ext "lambda-cors"}) render/snippet-response :body))
 
 (defn wrap-handler [f]
   (fn [event ctx cb]
     (->> event js->clj e->ring f response clj->js (cb nil))))
+
+(defn static [pairs]
+  (string/join "\n\n"
+               (for [[k f] pairs]
+                 (->> {:params {}} f static-response (str k "\n")))))
