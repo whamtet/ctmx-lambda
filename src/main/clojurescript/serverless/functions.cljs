@@ -33,5 +33,3 @@
   serverless.examples.tabs-hateoas
   serverless.examples.value-select
   serverless.functions.core)
-
-(defn main [])
