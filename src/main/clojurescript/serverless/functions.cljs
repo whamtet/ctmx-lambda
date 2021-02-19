@@ -5,7 +5,7 @@
     serverless.examples.bulk-update
     serverless.examples.click-to-edit
     serverless.examples.click-to-load
-    serverless.examples.delete-raw
+    serverless.examples.delete-row
     serverless.examples.dialogs
     serverless.examples.infinite-scroll
     serverless.examples.inline-validation
@@ -23,7 +23,7 @@
   serverless.examples.bulk-update
   serverless.examples.click-to-edit
   serverless.examples.click-to-load
-  serverless.examples.delete-raw
+  serverless.examples.delete-row
   serverless.examples.dialogs
   serverless.examples.infinite-scroll
   serverless.examples.inline-validation

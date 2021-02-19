@@ -1,4 +1,4 @@
-(ns serverless.examples.delete-raw
+(ns serverless.examples.delete-row
   (:require
     ctmx.rt)
   (:require-macros

@@ -47,3 +47,7 @@
        :hx-vals (json {:status "Inactive"})
        :hx-target (hash ".")}
       "Deactivate"]])
+
+(make-routes
+  "/demo"
+  (fn [req] (bulk-update req [] "")))
