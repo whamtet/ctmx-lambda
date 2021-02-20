@@ -17,13 +17,12 @@
 
 (defcomponent ^:endpoint models [req make]
   (let [models (data make)]
-    [:div {:id id}
+    [:div {:id id :hx-target "this"}
       [:h3 "Pick a Make / Model"]
       [:div
         [:label.mr "Make"]
         (select {:name "make"
-                 :hx-get "models"
-                 :hx-target (hash ".")} make (keys data))]
+                 :hx-get "models"} make (keys data))]
       [:div
         [:label.mr "Model"]
         (select {} (first models) models)]]))

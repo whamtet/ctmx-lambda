@@ -6,7 +6,7 @@
     [ctmx.lambda :refer [make-routes]]))
 
 (defcomponent ^:endpoint reply [{:keys [headers]}]
-  [:div#response "You entered " (headers "hx-prompt")])
+  [:div#response.mmargin "You entered " (headers "hx-prompt")])
 
 (make-routes
   "/demo"

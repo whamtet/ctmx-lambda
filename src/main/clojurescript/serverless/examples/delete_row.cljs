@@ -25,6 +25,6 @@
   (fn [req]
     [:table.table.delete-row-example
       [:thead
-        [:tr [:th "Name"] [:th "Email"] [:th "Status"]]]
-      [:tbody {:hx-confirm "Are you sure?" :hx-target "closest tr" :hx-swap "outerHTML swap:1s"}
+        [:tr [:th "Name"] [:th "Email"] [:th "Status"] [:th]]]
+      [:tbody {:hx-confirm "Are you sure?" :hx-target "closest tr" :hx-swap "outerHTML swap:0.5s"}
         (ctmx.rt/map-indexed tr req data)]]))

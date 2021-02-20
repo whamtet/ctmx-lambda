@@ -14,7 +14,7 @@
 (defn tr [{:keys [name email]}]
   [:tr [:td name] [:td email]])
 
-(defcomponent ^:endpoint rows [req search]
+(defcomponent ^:endpoint active-search [req search]
   (let [search (.toLowerCase search)]
     (->> data
       (filter #(-> % :name .toLowerCase (.includes search)))
@@ -24,16 +24,15 @@
   "/demo"
   (fn [req]
     [:div
-      [:h3 "Search Contacts"
-        [:span.htmx-indicator
-          [:img {:src "img/bars.svg"}] " Searching..."]]
-      [:input.form-control
+      [:h3 "Search Contacts"]
+      [:input.mr
         {:type "text" :name "search" :placeholder "Search e.g. Joe"
-         :hx-post "rows" :hx-trigger "keyup changed delay:500ms"
-         :hx-target "#search-results"
-         :hx-indicator ".htmx-indicator"}]
+         :hx-post "active-search" :hx-trigger "keyup changed delay:500ms"
+         :hx-target "#search-results"}]
+      [:span.htmx-indicator
+          [:img {:src "../../bars.svg"}] " Searching..."]
       [:table.table
         [:thead
           [:tr [:th "Name"] [:th "Email"]]]
         [:tbody#search-results
-          (rows req "")]]]))
+          (active-search req "")]]]))
