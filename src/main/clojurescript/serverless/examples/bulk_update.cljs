@@ -29,7 +29,7 @@
    [:td email]
    [:td status]])
 
-(defcomponent ^:endpoint ^{:middleware update-data} update-form [req ids ^:json data status]
+(defcomponent ^:endpoint ^{:params update-data} update-form [req ids ^:json data status]
   [:form {:id id :hx-target "this"}
    [:input {:type "hidden" :name "data" :value (pr-str data)}]
    [:table
