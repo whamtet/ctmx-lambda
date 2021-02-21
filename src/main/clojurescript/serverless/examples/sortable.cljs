@@ -16,7 +16,7 @@
 (defcomponent ^:endpoint sortable [req ^:ints order]
   (if (not-empty order)
     (content order)
-    [:form#sortable {:hx-post "sortable" :hx-trigger "end"}
+    [:form#to-sort {:hx-post "sortable" :hx-trigger "end"}
       (content (range 1 6))]))
 
 (make-routes

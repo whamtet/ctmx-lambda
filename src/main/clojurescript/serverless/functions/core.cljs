@@ -62,12 +62,9 @@
   (fn [req]
     (click-div req 0)))
 
-
-(defn add-customer [{:keys [first-name last-name customer-list]}]
-  {:customer-list
-    (update customer-list
-      :customer
-      #(conj (or % []) {:first-name first-name :last-name last-name}))})
+(defn add-customer [{:keys [first-name last-name customer]}]
+  {:customer
+   (conj (or customer []) {:first-name first-name :last-name last-name})})
 
 (defn- text [name value]
   [:input {:type "text"
@@ -81,7 +78,7 @@
     [:input {:type "hidden" :name (path "first-name") :value first-name}]
     [:input {:type "hidden" :name (path "last-name") :value last-name}]])
 
-(defcomponent ^:endpoint ^{:middleware add-customer} customer-list
+(defcomponent ^:endpoint ^{:params-stack add-customer} customer-list
   [req first-name last-name ^:json-stack customer]
   [:form {:id id :hx-post "customer-list"}
     ;; display the nested params
@@ -89,8 +86,8 @@
     [:br]
 
     (ctmx.rt/map-indexed serverless.functions.core/customer req customer)
-    (text "first-name" first-name)
-    (text "last-name" last-name)
+    (text (path "first-name") first-name)
+    (text (path "last-name") last-name)
     [:input {:type "submit" :value "Add Customer"}]])
 
 (make-routes
